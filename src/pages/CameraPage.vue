@@ -1,45 +1,55 @@
 <template>
   <q-page padding>
-    <div style="max-width: 500px" class="q-mx-auto">
-      <div class="text-center">
-        <h4 class="q-mt-none q-mb-md">
-          Yeremia
-        </h4>
-      </div>
-      <video class="full-width" ref="selfie_cam" autoplay style="transform: scaleX(-1);background-color:#000;" v-show="!imageCaptured"/>
-      <canvas class="full-width" ref="selfie_canvas" v-show="imageCaptured"/>
-      <div class="row q-mt-md">
-        <div class="col-6">
-          <div class="q-pr-sm">
-            <q-btn label="Clock In" color="positive" size="xl" class="block full-width" @click="clockIn"/>
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="q-pl-sm">
-            <q-btn label="Clock Out" color="negative" size="xl" class="block full-width" @click="clockIn" disable/>
-          </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="q-pr-md">
+          <video class="full-width" ref="selfie_cam" autoplay style="transform: scaleX(-1);background-color:#000;"
+                 v-show="!imageCaptured"/>
+          <canvas class="full-width" ref="selfie_canvas" v-show="imageCaptured"/>
         </div>
       </div>
-      <div class="q-mt-md">
-        <q-list bordered separator>
-          <q-item>
-            <q-item-section>
-              <q-item-label>Item with caption</q-item-label>
-              <q-item-label caption>
-                Clock Out
-              </q-item-label>
-            </q-item-section>
-          </q-item>
+      <div class="col-sm-6">
+        <div class="q-pl-md">
 
-          <q-item>
-            <q-item-section>
-              <q-item-label>Item with caption</q-item-label>
-              <q-item-label caption>
-                Clock In
-              </q-item-label>
-            </q-item-section>
-          </q-item>
-        </q-list>
+          <div class="text-center">
+            <h4 class="q-mt-none q-mb-md">
+              Yeremia
+            </h4>
+          </div>
+          <div class="row q-mt-md">
+            <div class="col-6">
+              <div class="q-pr-sm">
+                <q-btn label="Clock In" color="positive" size="xl" class="block full-width" @click="clockIn"/>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="q-pl-sm">
+                <q-btn label="Clock Out" color="negative" size="xl" class="block full-width" @click="clockIn" disable/>
+              </div>
+            </div>
+          </div>
+          <div class="q-mt-md">
+            <q-list bordered separator>
+              <q-item>
+                <q-item-section>
+                  <q-item-label>Item with caption</q-item-label>
+                  <q-item-label caption>
+                    Clock Out
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+
+              <q-item>
+                <q-item-section>
+                  <q-item-label>Item with caption</q-item-label>
+                  <q-item-label caption>
+                    Clock In
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </div>
+        </div>
       </div>
     </div>
   </q-page>
