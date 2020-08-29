@@ -6,23 +6,34 @@
           Absensi Karyawan
         </q-toolbar-title>
 
-        <div class="orientation-landscape">
+        <div class="gt-xs">
           {{ currentTime }}
         </div>
       </q-toolbar>
     </q-header>
 
-    <q-footer elevated class="orientation-portrait">
-      <q-toolbar class="flex-center">
+    <q-footer class="bg-white">
+      <q-tabs align="justify" class="check-clock-buttons lt-lg">
+        <q-tab name="mails" label="Clock In" class="bg-green-5" style="opacity: 1;"/>
+        <q-tab name="alarms" label="Clock Out" class="bg-red-5 disabled" style="opacity: 1;" disable/>
+      </q-tabs>
+      <q-toolbar class="flex-center bg-primary lt-sm">
         {{ currentTime }}
       </q-toolbar>
     </q-footer>
+
 
     <q-page-container>
       <router-view/>
     </q-page-container>
   </q-layout>
 </template>
+
+<style lang="scss">
+.check-clock-buttons .q-tab__indicator {
+  display: none !important;
+}
+</style>
 
 <script>
 import moment from 'moment';

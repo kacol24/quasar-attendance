@@ -1,34 +1,35 @@
 <template>
-  <q-page padding>
-    <div class="row">
-      <div class="col-sm-6">
-        <div class="q-pr-md">
-          <video class="full-width" ref="selfie_cam" autoplay style="transform: scaleX(-1);background-color:#000;"
-                 v-show="!imageCaptured"/>
+  <q-page padding class="flex flex-center">
+    <div class="row full-width">
+      <div class="col-12 col-sm-6">
+        <div class="q-pr-sm-md">
+          <div class="aspect-ratio-3by4 q-mx-auto" style="max-width: 300px">
+            <video class="full-width full-height bg-black aspect-ratio-item" ref="selfie_cam" autoplay style="transform: scaleX(-1);"
+                   v-show="!imageCaptured"/>
+          </div>
           <canvas class="full-width" ref="selfie_canvas" v-show="imageCaptured"/>
         </div>
       </div>
-      <div class="col-sm-6">
-        <div class="q-pl-md">
-
+      <div class="col-12 col-sm-6 flex flex-center">
+        <div class="q-pl-sm-md full-width">
           <div class="text-center">
-            <h4 class="q-mt-none q-mb-md">
+            <h4 class="q-mt-md q-mt-sm-none q-mb-md">
               Yeremia
             </h4>
           </div>
-          <div class="row q-mt-md">
+          <div class="row q-mt-md gt-md">
             <div class="col-6">
               <div class="q-pr-sm">
-                <q-btn label="Clock In" color="positive" size="xl" class="block full-width" @click="clockIn"/>
+                <q-btn label="Clock In" color="positive" size="lg" class="block full-width" @click="clockIn"/>
               </div>
             </div>
             <div class="col-6">
               <div class="q-pl-sm">
-                <q-btn label="Clock Out" color="negative" size="xl" class="block full-width" @click="clockIn" disable/>
+                <q-btn label="Clock Out" color="negative" size="lg" class="block full-width" @click="clockIn" disable/>
               </div>
             </div>
           </div>
-          <div class="q-mt-md">
+          <div class="q-mt-md q-mb-md">
             <q-list bordered separator>
               <q-item>
                 <q-item-section>
@@ -55,6 +56,24 @@
   </q-page>
 </template>
 
+<style lang="scss" scoped>
+.aspect-ratio-3by4 {
+  position: relative;
+
+  &:before {
+    display: block;
+    content: '';
+    padding-top: 4 / 3 * 100%;
+  }
+
+  .aspect-ratio-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+</style>
+
 <script>
 export default {
   name: 'CameraPage',
@@ -69,6 +88,13 @@ export default {
 
   methods: {
     initCamera() {
+      if (this.$q.platform.is.capacitor) {
+        console.log('must init capacitor camera');
+      } else {
+        this.initBrowserCamera();
+      }
+    },
+    initBrowserCamera() {
       navigator.mediaDevices.getUserMedia({
         video: true
       }).then(stream => {
@@ -78,13 +104,20 @@ export default {
       });
     },
     disableCamera() {
+      if (this.$q.platform.is.capacitor) {
+        console.log('must init capacitor camera');
+      } else {
+        this.disableBrowserCamera();
+      }
+    },
+    disableBrowserCamera() {
       this.$refs.selfie_cam.srcObject.getVideoTracks().forEach(track => track.stop());
     },
     clockIn() {
       this.captureImage();
       this.$q.dialog({
         title: 'Confirm',
-        message: 'Would you like to turn on the wifi?',
+        message: 'Clock-in sekarang?',
         cancel: true,
         persistent: true
       }).onOk(() => {
@@ -94,7 +127,9 @@ export default {
       }).onCancel(() => {
         // console.log('>>>> Cancel')
       }).onDismiss(() => {
-        // console.log('I am triggered on both OK and Cancel')
+        this.imageCaptured = false;
+        this.initBrowserCamera();
+        this.selfie = null;
       });
     },
     captureImage() {
