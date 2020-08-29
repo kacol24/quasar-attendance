@@ -3,9 +3,12 @@
     <div class="row full-width">
       <div class="col-12 col-sm-6">
         <div class="q-pr-sm-md">
-          <div class="aspect-ratio-3by4 q-mx-auto" style="max-width: 300px">
-            <video class="full-width full-height bg-black aspect-ratio-item" ref="selfie_cam" autoplay style="transform: scaleX(-1);"
-                   v-show="!imageCaptured"/>
+          <div class="relative-position" v-show="!imageCaptured">
+            <div class="aspect-ratio-3by4 q-mx-auto" style="max-width: 300px">
+              <video class="full-width full-height bg-black aspect-ratio-item" ref="selfie_cam" autoplay
+                     style="transform: scaleX(-1);"/>
+            </div>
+            <img src="images/user-outline.png" alt="user outline" class="absolute" style="top: 0;left: 0;">
           </div>
           <canvas class="full-width" ref="selfie_canvas" v-show="imageCaptured"/>
         </div>
