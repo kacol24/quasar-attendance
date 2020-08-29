@@ -2,11 +2,11 @@
   <q-page padding>
     <div style="max-width: 500px" class="q-mx-auto">
       <div class="text-center">
-        <h4 class="q-mt-none">
+        <h4 class="q-mt-none q-mb-md">
           Yeremia
         </h4>
       </div>
-      <video class="full-width" ref="selfie_cam" autoplay style="transform: scaleX(-1)" v-show="!imageCaptured"/>
+      <video class="full-width" ref="selfie_cam" autoplay style="transform: scaleX(-1);background-color:#000;" v-show="!imageCaptured"/>
       <canvas class="full-width" ref="selfie_canvas" v-show="imageCaptured"/>
       <div class="row q-mt-md">
         <div class="col-6">
