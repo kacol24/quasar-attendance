@@ -1,19 +1,22 @@
 <template>
   <q-page padding>
-    <div style="max-width: 500px" class="q-mx-auto q-pa-md">
-      <video class="full-width" ref="selfie_cam" autoplay style="max-height: 500px; transform: scaleX(-1)"
-             v-show="!imageCaptured"/>
-      <canvas class="full-width" ref="selfie_canvas" style="max-height: 500px; background-color:green;"
-              v-show="imageCaptured"/>
+    <div style="max-width: 500px" class="q-mx-auto">
+      <div class="text-center">
+        <h4 class="q-mt-none">
+          Yeremia
+        </h4>
+      </div>
+      <video class="full-width" ref="selfie_cam" autoplay style="transform: scaleX(-1)" v-show="!imageCaptured"/>
+      <canvas class="full-width" ref="selfie_canvas" v-show="imageCaptured"/>
       <div class="row q-mt-md">
         <div class="col-6">
-          <div class="q-pr-md">
-            <q-btn label="Clock In" color="positive" class="block full-width" @click="clockIn"/>
+          <div class="q-pr-sm">
+            <q-btn label="Clock In" color="positive" size="xl" class="block full-width" @click="clockIn"/>
           </div>
         </div>
         <div class="col-6">
-          <div class="q-pl-md">
-            <q-btn label="Clock In" color="negative" class="block full-width" @click="confirm" disable/>
+          <div class="q-pl-sm">
+            <q-btn label="Clock Out" color="negative" size="xl" class="block full-width" @click="clockIn" disable/>
           </div>
         </div>
       </div>
