@@ -92,7 +92,9 @@ module.exports = function (/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: [],
+      plugins: [
+        'Dialog'
+      ],
 
       cssAddon: true
     },
