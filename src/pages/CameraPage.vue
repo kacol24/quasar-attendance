@@ -1,7 +1,7 @@
 <template>
   <q-page padding>
     <div style="max-width: 500px" class="q-mx-auto q-pa-md">
-      <video class="full-width" ref="selfie_cam" autoplay style="max-height: 500px; background-color:#000;"
+      <video class="full-width" ref="selfie_cam" autoplay style="max-height: 500px; transform: scaleX(-1)"
              v-show="!imageCaptured"/>
       <canvas class="full-width" ref="selfie_canvas" style="max-height: 500px; background-color:green;"
               v-show="imageCaptured"/>
