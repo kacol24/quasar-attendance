@@ -13,7 +13,7 @@
     </q-header>
 
     <q-footer class="bg-white">
-      <q-tabs align="justify" class="check-clock-buttons lt-lg">
+      <q-tabs align="justify" class="check-clock-buttons lt-lg" :class="{ 'hidden': $route.name !== 'camera.index' }">
         <q-tab name="mails" label="Clock In" class="bg-green-5" style="opacity: 1;"/>
         <q-tab name="alarms" label="Clock Out" class="bg-red-5 disabled" style="opacity: 1;" disable/>
       </q-tabs>
