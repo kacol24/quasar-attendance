@@ -1,2 +1,3 @@
-export function someMutation (/* state */) {
+export function setEmployees(state, employees) {
+  state.employees = employees;
 }

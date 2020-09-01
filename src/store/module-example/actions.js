@@ -1,2 +1,3 @@
-export function someAction (/* context */) {
+export function getAllEmployees({context}) {
+
 }
