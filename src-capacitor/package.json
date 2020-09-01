@@ -1,0 +1,12 @@
+{
+  "name": "attendance-app",
+  "version": "0.0.1",
+  "description": "Attendance app",
+  "author": "Kevin Chandra <kacol.bot@gmail.com>",
+  "private": true,
+  "dependencies": {
+    "@capacitor/android": "2.4.0",
+    "@capacitor/cli": "^2.0.0",
+    "@capacitor/core": "^2.0.0"
+  }
+}

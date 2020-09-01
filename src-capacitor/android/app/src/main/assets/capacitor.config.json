@@ -1,0 +1,10 @@
+{
+  "appId": "me.kevinchandra.attendance",
+  "appName": "Kamsia Attendance",
+  "bundledWebRuntime": false,
+  "npmClient": "yarn",
+  "webDir": "www",
+  "server": {
+    "url": "http://192.168.0.8:8080"
+  }
+}

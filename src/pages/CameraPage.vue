@@ -3,12 +3,14 @@
     <div class="row full-width">
       <div class="col-12 col-sm-6">
         <div class="q-pr-sm-md">
-          <div class="aspect-ratio-3by4 q-mx-auto" style="max-width: 300px" v-show="!imageCaptured">
-            <video class="full-width full-height bg-black aspect-ratio-item" ref="selfie_cam" autoplay
-                   style="transform: scaleX(-1);"/>
-            <img src="images/user-outline.png" alt="user outline" class="absolute" style="top: 0;left: 0;">
-          </div>
-          <canvas class="full-width" ref="selfie_canvas" v-show="imageCaptured"/>
+<!--          <div class="aspect-ratio-3by4 q-mx-auto" style="max-width: 300px" v-show="!imageCaptured">-->
+<!--            <video class="full-width full-height bg-black aspect-ratio-item" ref="selfie_cam" autoplay-->
+<!--                   style="transform: scaleX(-1);"/>-->
+<!--            <img src="images/user-outline.png" alt="user outline" class="absolute" style="top: 0;left: 0;">-->
+<!--          </div>-->
+<!--          <canvas class="full-width" ref="selfie_canvas" v-show="imageCaptured"/>-->
+          <q-btn color="primary" label="Get Picture" @click="takeSelfie"/>
+          <img :src="imageSrc">
         </div>
       </div>
       <div class="col-12 col-sm-6 flex flex-center">
@@ -76,6 +78,10 @@
 </style>
 
 <script>
+import {Plugins, CameraResultType} from '@capacitor/core';
+
+const {Camera} = Plugins;
+
 export default {
   name: 'CameraPage',
 
@@ -83,11 +89,24 @@ export default {
     return {
       hasCameraSupport: true,
       imageCaptured: false,
-      selfie: null
+      selfie: null,
+      imageSrc: ''
     };
   },
 
   methods: {
+    async takeSelfie() {
+      const image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: true,
+        resultType: CameraResultType.Uri
+      });
+      // image.webPath will contain a path that can be set as an image src.
+      // You can access the original file using image.path, which can be
+      // passed to the Filesystem API to read the raw data of the image,
+      // if desired (or pass resultType: CameraResultType.Base64 to getPhoto)
+      this.imageSrc = image.webPath;
+    },
     initCamera() {
       if (this.$q.platform.is.capacitor) {
         console.log('must init capacitor camera');

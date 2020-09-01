@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Kamsia Attendance</string>
+    <string name="title_activity_main">Kamsia Attendance</string>
+    <string name="package_name">me.kevinchandra.attendance</string>
+    <string name="custom_url_scheme">me.kevinchandra.attendance</string>
+</resources>
