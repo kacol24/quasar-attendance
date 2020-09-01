@@ -3,14 +3,13 @@
     <div class="row full-width">
       <div class="col-12 col-sm-6">
         <div class="q-pr-sm-md">
-<!--          <div class="aspect-ratio-3by4 q-mx-auto" style="max-width: 300px" v-show="!imageCaptured">-->
-<!--            <video class="full-width full-height bg-black aspect-ratio-item" ref="selfie_cam" autoplay-->
-<!--                   style="transform: scaleX(-1);"/>-->
-<!--            <img src="images/user-outline.png" alt="user outline" class="absolute" style="top: 0;left: 0;">-->
-<!--          </div>-->
-<!--          <canvas class="full-width" ref="selfie_canvas" v-show="imageCaptured"/>-->
-          <q-btn color="primary" label="Get Picture" @click="takeSelfie"/>
-          <img :src="imageSrc">
+          <!--          <div class="aspect-ratio-3by4 q-mx-auto" style="max-width: 300px" v-show="!imageCaptured">-->
+          <!--            <video class="full-width full-height bg-black aspect-ratio-item" ref="selfie_cam" autoplay-->
+          <!--                   style="transform: scaleX(-1);"/>-->
+          <!--            <img src="images/user-outline.png" alt="user outline" class="absolute" style="top: 0;left: 0;">-->
+          <!--          </div>-->
+          <!--          <canvas class="full-width" ref="selfie_canvas" v-show="imageCaptured"/>-->
+          <img :src="imageSrc" class="q-mx-auto block">
         </div>
       </div>
       <div class="col-12 col-sm-6 flex flex-center">
@@ -20,10 +19,10 @@
               Yeremia
             </h4>
           </div>
-          <div class="row q-mt-md gt-md">
+          <div class="row q-mt-md">
             <div class="col-6">
               <div class="q-pr-sm">
-                <q-btn label="Clock In" color="positive" size="lg" class="block full-width" @click="clockIn"/>
+                <q-btn label="Clock In" color="positive" size="lg" class="block full-width" @click="takeSelfie"/>
               </div>
             </div>
             <div class="col-6">
@@ -78,7 +77,7 @@
 </style>
 
 <script>
-import {Plugins, CameraResultType} from '@capacitor/core';
+import {CameraDirection, CameraResultType, CameraSource, Plugins} from '@capacitor/core';
 
 const {Camera} = Plugins;
 
@@ -90,15 +89,18 @@ export default {
       hasCameraSupport: true,
       imageCaptured: false,
       selfie: null,
-      imageSrc: ''
+      imageSrc: 'images/blank_portrait.png'
     };
   },
 
   methods: {
     async takeSelfie() {
       const image = await Camera.getPhoto({
+        allowEditing: false,
+        direction: CameraDirection.Front,
+        height: 400,
+        source: CameraSource.Camera,
         quality: 90,
-        allowEditing: true,
         resultType: CameraResultType.Uri
       });
       // image.webPath will contain a path that can be set as an image src.
