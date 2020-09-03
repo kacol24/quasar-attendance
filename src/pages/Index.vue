@@ -57,10 +57,6 @@
 
 <script>
 export default {
-  name: 'PageIndex',
-
-  mounted() {
-    this.$axios.get('http://backpack-payroll/api/employees');
-  }
+  name: 'PageIndex'
 };
 </script>
