@@ -5,7 +5,6 @@
   "author": "Kevin Chandra <kacol.bot@gmail.com>",
   "private": true,
   "dependencies": {
-    "@capacitor-community/camera-preview": "^1.0.3",
     "@capacitor/android": "2.4.0",
     "@capacitor/cli": "^2.0.0",
     "@capacitor/core": "^2.0.0"

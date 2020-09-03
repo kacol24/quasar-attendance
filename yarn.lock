@@ -892,14 +892,7 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
-"@capacitor-community/camera-preview@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@capacitor-community/camera-preview/-/camera-preview-1.0.3.tgz#db10d38d152a858c3de6ced44ddd6ff420bb3cb0"
-  integrity sha512-wI2rr/B/9ZPSAghkk5HpneJ0zJ6MJU6N3C1avS/HWyI7PaffEtMkih5VaHIjz19Cd4KlK8mpafiwPAzWV1rVPw==
-  dependencies:
-    "@capacitor/core" latest
-
-"@capacitor/core@^2.4.0", "@capacitor/core@latest":
+"@capacitor/core@^2.4.0":
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/@capacitor/core/-/core-2.4.0.tgz#5f3741153d87901e5c14c9037b6634bd24df5e77"
   integrity sha512-zL+3yKjLNkU6QwIB/Fp9rg+qDLsO44/ibrIgaZZRXcDCwScwanjXCgco/jXQl3jGFcZzanm59wKhMcJr9xQH0Q==

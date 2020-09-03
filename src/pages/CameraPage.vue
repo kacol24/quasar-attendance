@@ -9,8 +9,7 @@
           <!--            <img src="images/user-outline.png" alt="user outline" class="absolute" style="top: 0;left: 0;">-->
           <!--          </div>-->
           <!--          <canvas class="full-width" ref="selfie_canvas" v-show="imageCaptured"/>-->
-<!--          <img :src="imageSrc" class="q-mx-auto block">-->
-          <div id="selfiee" class="selfiee"></div>
+          <img :src="imageSrc" class="q-mx-auto block">
         </div>
       </div>
       <div class="col-12 col-sm-6 flex flex-center">
@@ -78,11 +77,9 @@
 </style>
 
 <script>
-import {Plugins} from '@capacitor/core';
+import {CameraDirection, CameraResultType, CameraSource, Plugins} from '@capacitor/core';
 
-import '@capacitor-community/camera-preview';
-
-const {CameraPreview} = Plugins;
+const {Camera} = Plugins;
 
 export default {
   name: 'CameraPage',
@@ -194,15 +191,7 @@ export default {
   },
 
   mounted() {
-    // this.initCamera();
-    const cameraPreviewOptions = {
-      position: 'front',
-      width: 300,
-      height: 400,
-      parent: 'selfiee',
-      className: 'selfiee'
-    };
-    CameraPreview.start(cameraPreviewOptions);
+    this.initCamera();
   },
 
   beforeDestroy() {
