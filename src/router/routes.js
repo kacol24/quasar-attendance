@@ -9,7 +9,7 @@ const routes = [
         name: 'home'
       },
       {
-        path: 'camera',
+        path: 'camera/:employee_id',
         component: () => import('pages/CameraPage.vue'),
         name: 'camera.index'
       }

@@ -3,12 +3,6 @@
     <div class="row full-width">
       <div class="col-12 col-sm-6">
         <div class="q-pr-sm-md">
-          <!--          <div class="aspect-ratio-3by4 q-mx-auto" style="max-width: 300px" v-show="!imageCaptured">-->
-          <!--            <video class="full-width full-height bg-black aspect-ratio-item" ref="selfie_cam" autoplay-->
-          <!--                   style="transform: scaleX(-1);"/>-->
-          <!--            <img src="images/user-outline.png" alt="user outline" class="absolute" style="top: 0;left: 0;">-->
-          <!--          </div>-->
-          <!--          <canvas class="full-width" ref="selfie_canvas" v-show="imageCaptured"/>-->
           <img :src="imageSrc" alt="blank image" class="q-mx-auto block" @click="takeSelfie">
         </div>
       </div>
@@ -19,18 +13,10 @@
               Yeremia
             </h4>
           </div>
-          <div class="row q-mt-md gt-md">
-            <div class="col-6">
-              <div class="q-pr-sm">
-                <q-btn label="Clock In" color="positive" size="lg" class="block full-width"/>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="q-pl-sm">
-                <q-btn label="Clock Out" color="negative" size="lg" class="block full-width" disable/>
-              </div>
-            </div>
-          </div>
+          <q-btn label="Clock In" color="positive" size="lg" class="block full-width" v-if="!selectedEmployee.on_shift"
+                 :disabled="!selfie"/>
+          <q-btn label="Clock Out" color="negative" size="lg" class="block full-width"
+                 v-if="selectedEmployee.on_shift" :disabled="!selfie"/>
           <div class="q-mt-md q-mb-md">
             <q-list bordered separator>
               <q-item>
@@ -90,7 +76,10 @@ export default {
       imageCaptured: false,
       selfie: null,
       imageSrc: 'images/blank_portrait_pointer.png',
-      clockedIn: false
+      clockedIn: false,
+      selectedEmployee: {
+        on_shift: false
+      }
     };
   },
 
@@ -105,17 +94,16 @@ export default {
         quality: 90,
         resultType: CameraResultType.Uri
       });
-      // image.webPath will contain a path that can be set as an image src.
-      // You can access the original file using image.path, which can be
-      // passed to the Filesystem API to read the raw data of the image,
-      // if desired (or pass resultType: CameraResultType.Base64 to getPhoto)
       this.imageSrc = image.webPath;
-      console.log('clock in');
+      this.selfie = image.webPath;
     }
   },
 
   mounted() {
-    this.takeSelfie();
+    let employeeId = this.$route.params.employee_id;
+    this.$store.dispatch('employee/selectEmployee', employeeId);
+    this.selectedEmployee = this.$store.state.employee.selectedEmployee;
+    // this.takeSelfie();
   }
 };
 </script>
