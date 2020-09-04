@@ -53,6 +53,7 @@ export default {
   },
   mounted() {
     this.startTimer();
+    this.$store.dispatch('employee/loadEmployees').then();
   }
 };
 </script>
