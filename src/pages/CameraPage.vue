@@ -103,7 +103,7 @@ export default {
     let employeeId = this.$route.params.employee_id;
     this.$store.dispatch('employee/selectEmployee', employeeId);
     this.selectedEmployee = this.$store.state.employee.selectedEmployee;
-    // this.takeSelfie();
+    this.takeSelfie();
   }
 };
 </script>
