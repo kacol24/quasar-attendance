@@ -10,7 +10,12 @@
               </q-card-section>
               <q-card-section>
                 <div class="row">
-                  <div class="col-6" v-for="employee in offEmployees" :key="employee.id">
+                  <div class="col-6" v-for="employee in Array(4).keys()" v-if="employeeLoading">
+                    <div class="q-pa-sm">
+                      <q-skeleton type="QBtn" class="block q-py-md full-width"/>
+                    </div>
+                  </div>
+                  <div class="col-6" v-for="employee in offEmployees" :key="employee.id" v-if="!employeeLoading">
                     <div class="q-pa-sm">
                       <q-btn :to="{ name: 'camera.index', params: {employee_id: employee.id} }" :label="employee.name"
                              class="block q-py-md"/>
@@ -29,7 +34,12 @@
               </q-card-section>
               <q-card-section>
                 <div class="row">
-                  <div class="col-6" v-for="employee in onEmployees">
+                  <div class="col-6" v-for="employee in Array(4).keys()" v-if="employeeLoading">
+                    <div class="q-pa-sm">
+                      <q-skeleton type="QBtn" class="block q-py-md full-width"/>
+                    </div>
+                  </div>
+                  <div class="col-6" v-for="employee in onEmployees" v-if="!employeeLoading">
                     <div class="q-pa-sm">
                       <q-btn :to="{ name: 'camera.index', params: {employee_id: employee.id} }" :label="employee.name"
                              class="block q-py-md"/>
@@ -58,6 +68,9 @@ export default {
   },
 
   computed: {
+    employeeLoading() {
+      return this.$store.state.employee.isLoading;
+    },
     offEmployees() {
       return this.$store.getters['employee/offEmployees'];
     },
