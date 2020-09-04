@@ -6,7 +6,7 @@ export function selectEmployee(context, employeeId) {
 }
 
 export function loadEmployees(context) {
-  axios.get('http://backpack-payroll.docker/api/employees')
+  axios.get('https://attendance.kamsia.kevinchandra.me/api/employees')
        .then(response => {
          context.commit('setEmployees', response.data.data);
        });
