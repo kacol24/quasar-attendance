@@ -1,15 +1,31 @@
-import axios from 'axios';
+import api from '../../services/api';
 
 export function selectEmployee(context, employeeId) {
   let employee = context.getters.findEmployeeById(employeeId);
-  context.commit('setSelectedEmployee', {employee});
+  context.commit('setSelectedEmployee', employee);
 }
 
-export function loadEmployees(context) {
-  context.state.isLoading = true;
-  axios.get('https://attendance.kamsia.kevinchandra.me/api/employees')
-       .then(response => {
-         context.commit('setEmployees', response.data.data);
-       })
-       .finally(() => context.state.isLoading = false);
+export async function loadEmployees(context) {
+  context.commit('startLoading');
+  await api.employeesIndex()
+           .then(response => {
+             context.commit('setEmployees', response.data.data);
+           })
+           .finally(() => context.commit('doneLoading'));
+}
+
+export async function clockIn(context) {
+  let employee = context.state.selectedEmployee;
+  await api.clockIn(employee.id)
+           .then(response => {
+             console.log(response);
+           });
+}
+
+export async function clockOut(context) {
+  let employee = context.state.selectedEmployee;
+  await api.clockOut(employee.id)
+           .then(response => {
+             console.log(response);
+           });
 }

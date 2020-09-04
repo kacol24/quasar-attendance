@@ -3,7 +3,8 @@
     <div class="row full-width">
       <div class="col-12 col-sm-6">
         <div class="q-pr-sm-md">
-          <img :src="imageSrc" alt="blank image" class="q-mx-auto block" @click="takeSelfie">
+          <img :src="imageSrc" alt="blank image" class="q-mx-auto block" @click="takeSelfie"
+               style="max-width: 300px; height: auto">
         </div>
       </div>
       <div class="col-12 col-sm-6 flex flex-center">
@@ -14,9 +15,9 @@
             </h4>
           </div>
           <q-btn label="Clock In" color="positive" size="lg" class="block full-width" v-if="!selectedEmployee.on_shift"
-                 :disabled="!selfie"/>
+                 :disabled="!selfie" @click="clockIn"/>
           <q-btn label="Clock Out" color="negative" size="lg" class="block full-width"
-                 v-if="selectedEmployee.on_shift" :disabled="!selfie"/>
+                 v-if="selectedEmployee.on_shift" :disabled="!selfie" @click="clockOut"/>
           <div class="q-mt-md q-mb-md">
             <q-list bordered separator>
               <q-item>
@@ -97,6 +98,12 @@ export default {
       });
       this.imageSrc = image.webPath;
       this.selfie = image.webPath;
+    },
+    clockIn() {
+      this.$store.dispatch('employee/clockIn');
+    },
+    clockOut() {
+      this.$store.dispatch('employee/clockOut');
     }
   },
 
