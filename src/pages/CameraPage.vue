@@ -92,7 +92,8 @@ export default {
         height: 400,
         source: CameraSource.Camera,
         quality: 90,
-        resultType: CameraResultType.Uri
+        resultType: CameraResultType.Uri,
+        correctOrientation: false
       });
       this.imageSrc = image.webPath;
       this.selfie = image.webPath;
