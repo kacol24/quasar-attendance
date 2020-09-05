@@ -2,12 +2,17 @@
   <q-page padding class="flex flex-center">
     <div class="row full-width">
       <div class="col-12 col-sm-6">
-        <div class="q-pr-sm-md">
-          <div class="q-mx-auto" style="max-width: 300px">
-            <q-responsive :ratio="3/4">
-              <img :src="imageSrc" alt="blank image" class="q-mx-auto block" @click="takeSelfie"
-                   style="max-width: 100%; height: auto;">
-            </q-responsive>
+        <div class="q-pr-sm-md full-height flex flex-center">
+          <div class="row full-width">
+            <div class="col-12">
+              <div class="q-mx-auto" style="max-width: 300px">
+                <q-responsive :ratio="3/4" :style="[imageSrc ? {'background-image': 'url('+ imageSrc +')'} : '']"
+                              style="background-size: cover; background-position: center" @click="takeSelfie">
+                  <img src="images/blank_portrait_pointer.png" alt="blank image" class="q-mx-auto block"
+                       style="max-width: 100%; height: auto;" v-if="!imageSrc">
+                </q-responsive>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -41,7 +46,7 @@
             <q-slide-item @left="clockOut" left-color="negative" v-if="selectedEmployee.on_shift" :disabled="!selfie">
               <template v-slot:left v-if="selfie">
                 <div class="row items-center">
-                  <q-icon name="stop_circle" class="q-mr-md"/>
+                  <q-icon name="stop" class="q-mr-md"/>
                   Clock Out
                 </div>
               </template>
@@ -110,8 +115,8 @@
   }
 }
 
-.q-list:last-child:not(:first-child) {
-  border-top: 0;
+.q-list:not(:last-child) {
+  border-bottom: 0;
 }
 </style>
 
@@ -128,7 +133,7 @@ export default {
       hasCameraSupport: true,
       imageCaptured: false,
       selfie: null,
-      imageSrc: 'images/blank_portrait_pointer.png',
+      imageSrc: null,
       clockedIn: false,
       selectedEmployee: {
         name: null,
@@ -146,8 +151,7 @@ export default {
         height: 400,
         source: CameraSource.Camera,
         quality: 90,
-        resultType: CameraResultType.Uri,
-        correctOrientation: false
+        resultType: CameraResultType.Uri
       }).then(image => {
         this.imageSrc = image.webPath;
         this.selfie = image.webPath;
@@ -177,6 +181,10 @@ export default {
       return this.$router.back();
     }
     this.takeSelfie();
+  },
+
+  beforeDestroy() {
+    this.imageSrc = null;
   }
 };
 </script>
