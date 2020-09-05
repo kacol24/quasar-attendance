@@ -6,10 +6,10 @@
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
 
-module.exports = function (/* ctx */) {
+module.exports = function(/* ctx */) {
   return {
     bin: {
-      windowsAndroidStudio: 'C:\\Users\\Kevin\\AppData\\Local\\JetBrains\\Toolbox\\apps\\AndroidStudio\\ch-0\\193.6626763\\bin\\studio64.exe',
+      windowsAndroidStudio: 'C:\\Users\\Kevin\\AppData\\Local\\JetBrains\\Toolbox\\apps\\AndroidStudio\\ch-0\\193.6626763\\bin\\studio64.exe'
     },
 
     // https://quasar.dev/quasar-cli/supporting-ts
@@ -42,7 +42,7 @@ module.exports = function (/* ctx */) {
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
 
       'roboto-font', // optional, you are not bound to it
-      'material-icons', // optional, you are not bound to it
+      'material-icons' // optional, you are not bound to it
     ],
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
@@ -66,8 +66,8 @@ module.exports = function (/* ctx */) {
       // extractCSS: false,
 
       // https://quasar.dev/quasar-cli/handling-webpack
-      extendWebpack (cfg) {
-      },
+      extendWebpack(cfg) {
+      }
     },
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
@@ -97,7 +97,9 @@ module.exports = function (/* ctx */) {
 
       // Quasar plugins
       plugins: [
-        'Dialog'
+        'Dialog',
+        'Loading',
+        'Notify'
       ],
 
       cssAddon: true
@@ -190,10 +192,10 @@ module.exports = function (/* ctx */) {
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
       nodeIntegration: true,
 
-      extendWebpack (/* cfg */) {
+      extendWebpack(/* cfg */) {
         // do something with Electron main process Webpack cfg
         // chainWebpack also available besides this extendWebpack
       }
     }
-  }
-}
+  };
+};

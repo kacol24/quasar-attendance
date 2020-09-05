@@ -11,7 +11,7 @@
         <div class="q-pl-sm-md full-width">
           <div class="text-center">
             <h4 class="q-mt-md q-mt-sm-none q-mb-md">
-              Yeremia
+              {{ selectedEmployee.name }}
             </h4>
           </div>
           <q-btn label="Clock In" color="positive" size="lg" class="block full-width" v-if="!selectedEmployee.on_shift"
@@ -20,18 +20,22 @@
                  v-if="selectedEmployee.on_shift" :disabled="!selfie" @click="clockOut"/>
           <div class="q-mt-md q-mb-md">
             <q-list bordered separator>
-              <q-item>
+              <q-item v-if="selectedEmployee.attendance.end_at !== null">
                 <q-item-section>
-                  <q-item-label>Item with caption</q-item-label>
+                  <q-item-label>
+                    {{ selectedEmployee.attendance.formatted_end_at }}
+                  </q-item-label>
                   <q-item-label caption>
                     Clock Out
                   </q-item-label>
                 </q-item-section>
               </q-item>
 
-              <q-item>
+              <q-item v-if="selectedEmployee.attendance.start_at">
                 <q-item-section>
-                  <q-item-label>Item with caption</q-item-label>
+                  <q-item-label>
+                    {{ selectedEmployee.attendance.formatted_start_at }}
+                  </q-item-label>
                   <q-item-label caption>
                     Clock In
                   </q-item-label>
@@ -79,6 +83,7 @@ export default {
       imageSrc: 'images/blank_portrait_pointer.png',
       clockedIn: false,
       selectedEmployee: {
+        name: null,
         on_shift: false
       }
     };
@@ -100,10 +105,16 @@ export default {
       this.selfie = image.webPath;
     },
     clockIn() {
-      this.$store.dispatch('employee/clockIn');
+      this.$q.loading.show();
+      this.$store.dispatch('employee/clockIn').finally(() => {
+        this.$q.loading.hide();
+      });
     },
     clockOut() {
-      this.$store.dispatch('employee/clockOut');
+      this.$q.loading.show();
+      this.$store.dispatch('employee/clockOut').finally(() => {
+        this.$q.loading.hide();
+      });
     }
   },
 
@@ -111,6 +122,9 @@ export default {
     let employeeId = this.$route.params.employee_id;
     this.$store.dispatch('employee/selectEmployee', employeeId);
     this.selectedEmployee = this.$store.state.employee.selectedEmployee;
+    if (!this.selectedEmployee) {
+      return this.$router.back();
+    }
     this.takeSelfie();
   }
 };
