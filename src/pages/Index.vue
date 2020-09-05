@@ -10,9 +10,9 @@
               </q-card-section>
               <q-card-section>
                 <div class="row">
-                  <div class="col-6" v-for="employee in Array(4).keys()" v-if="employeeLoading">
+                  <div class="col-6" v-for="employee in Array(2).keys()" v-if="employeeLoading">
                     <div class="q-pa-sm">
-                      <q-skeleton type="QBtn" class="block q-py-md full-width"/>
+                      <q-skeleton type="QBtn" class="block q-py-md full-width" style="height: 68px;"/>
                     </div>
                   </div>
                   <div class="col-6" v-for="employee in offEmployees" :key="employee.id" v-if="!employeeLoading">
@@ -34,9 +34,9 @@
               </q-card-section>
               <q-card-section>
                 <div class="row">
-                  <div class="col-6" v-for="employee in Array(4).keys()" v-if="employeeLoading">
+                  <div class="col-6" v-for="employee in Array(2).keys()" v-if="employeeLoading">
                     <div class="q-pa-sm">
-                      <q-skeleton type="QBtn" class="block q-py-md full-width"/>
+                      <q-skeleton type="QBtn" class="block full-width" style="height: 68px;"/>
                     </div>
                   </div>
                   <div class="col-6" v-for="employee in onEmployees" v-if="!employeeLoading">
