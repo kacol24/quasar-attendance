@@ -2,6 +2,7 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
+        <q-btn flat round dense icon="arrow_back" v-show="this.$route.name !== 'home'" v-go-back.single/>
         <q-toolbar-title>
           Absensi Karyawan
         </q-toolbar-title>
