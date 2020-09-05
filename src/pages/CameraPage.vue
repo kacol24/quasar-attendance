@@ -104,9 +104,12 @@ export default {
         quality: 90,
         resultType: CameraResultType.Uri,
         correctOrientation: false
+      }).then(() => {
+        this.imageSrc = image.webPath;
+        this.selfie = image.webPath;
+      }).catch(e => {
+        console.log(e);
       });
-      this.imageSrc = image.webPath;
-      this.selfie = image.webPath;
     },
     clockIn() {
       this.$q.loading.show();
