@@ -18,26 +18,26 @@
                  :disabled="!selfie" @click="clockIn"/>
           <q-btn label="Clock Out" color="negative" size="lg" class="block full-width"
                  v-if="selectedEmployee.on_shift" :disabled="!selfie" @click="clockOut"/>
-          <div class="q-mt-md q-mb-md">
-            <q-list bordered separator>
-              <q-item v-if="selectedEmployee.attendance.end_at !== null">
+          <div class="q-mt-md q-mb-md" v-if="selectedEmployee.attendances">
+            <q-list bordered separator v-for="attendance in selectedEmployee.attendances" :key="attendance.id">
+              <q-item v-if="attendance.end_at">
                 <q-item-section>
                   <q-item-label>
-                    {{ selectedEmployee.attendance.formatted_end_at }}
+                    Clock Out
                   </q-item-label>
                   <q-item-label caption>
-                    Clock Out
+                    {{ attendance.formatted_end_at }}
                   </q-item-label>
                 </q-item-section>
               </q-item>
 
-              <q-item v-if="selectedEmployee.attendance.start_at">
+              <q-item v-if="attendance.start_at">
                 <q-item-section>
                   <q-item-label>
-                    {{ selectedEmployee.attendance.formatted_start_at }}
+                    Clock In
                   </q-item-label>
                   <q-item-label caption>
-                    Clock In
+                    {{ attendance.formatted_start_at }}
                   </q-item-label>
                 </q-item-section>
               </q-item>
@@ -64,6 +64,10 @@
     top: 0;
     left: 0;
   }
+}
+
+.q-list:last-child:not(:first-child) {
+  border-top: 0;
 }
 </style>
 
