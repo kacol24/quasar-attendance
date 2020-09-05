@@ -3,22 +3,66 @@
     <div class="row full-width">
       <div class="col-12 col-sm-6">
         <div class="q-pr-sm-md">
-          <img :src="imageSrc" alt="blank image" class="q-mx-auto block" @click="takeSelfie"
-               style="max-width: 300px; height: auto">
+          <div class="q-mx-auto" style="max-width: 300px">
+            <q-responsive :ratio="3/4">
+              <img :src="imageSrc" alt="blank image" class="q-mx-auto block" @click="takeSelfie"
+                   style="max-width: 100%; height: auto;">
+            </q-responsive>
+          </div>
         </div>
       </div>
       <div class="col-12 col-sm-6 flex flex-center">
         <div class="q-pl-sm-md full-width">
           <div class="text-center">
-            <h4 class="q-mt-md q-mt-sm-none q-mb-md">
+            <h4 class="q-mt-md q-mt-sm-none q-mb-md" v-if="selectedEmployee">
               {{ selectedEmployee.name }}
             </h4>
           </div>
-          <q-btn label="Clock In" color="positive" size="lg" class="block full-width" v-if="!selectedEmployee.on_shift"
-                 :disabled="!selfie" @click="clockIn"/>
-          <q-btn label="Clock Out" color="negative" size="lg" class="block full-width"
-                 v-if="selectedEmployee.on_shift" :disabled="!selfie" @click="clockOut"/>
-          <div class="q-mt-md q-mb-md" v-if="selectedEmployee.attendances">
+
+          <template v-if="selectedEmployee">
+            <q-slide-item @left="clockIn" left-color="positive" v-if="!selectedEmployee.on_shift" :disabled="!selfie">
+              <template v-slot:left v-if="selfie">
+                <div class="row items-center">
+                  <q-icon name="play_circle_filled" class="q-mr-md"/>
+                  Clock In
+                </div>
+              </template>
+
+              <q-item v-ripple class="bg-green-4" dark :disabled="!selfie">
+                <q-item-section avatar>
+                  <q-avatar color="positive" text-color="white" icon="double_arrow"/>
+                </q-item-section>
+                <q-item-section class="text-weight-bolder">
+                  CLOCK IN
+                </q-item-section>
+              </q-item>
+            </q-slide-item>
+
+            <q-slide-item @left="clockOut" left-color="negative" v-if="selectedEmployee.on_shift" :disabled="!selfie">
+              <template v-slot:left v-if="selfie">
+                <div class="row items-center">
+                  <q-icon name="stop_circle" class="q-mr-md"/>
+                  Clock Out
+                </div>
+              </template>
+
+              <q-item v-ripple class="bg-red-4" dark :disabled="!selfie">
+                <q-item-section avatar>
+                  <q-avatar color="negative" text-color="white" icon="double_arrow"/>
+                </q-item-section>
+                <q-item-section class="text-weight-bolder">
+                  CLOCK OUT
+                </q-item-section>
+              </q-item>
+            </q-slide-item>
+
+
+            <!--            <q-btn label="Clock In" color="positive" size="lg" class="block full-width"-->
+            <!--                   @click="clockIn"/>-->
+            <!--            <q-btn label="Clock Out" color="negative" size="lg" class="block full-width"-->
+            <!--                   @click="clockOut"/>-->
+          </template>
+          <div class="q-mt-md q-mb-md" v-if="selectedEmployee && selectedEmployee.attendances">
             <q-list bordered separator v-for="attendance in selectedEmployee.attendances" :key="attendance.id">
               <q-item v-if="attendance.end_at">
                 <q-item-section>
@@ -95,7 +139,7 @@ export default {
 
   methods: {
     async takeSelfie() {
-      const image = await Camera.getPhoto({
+      await Camera.getPhoto({
         allowEditing: false,
         direction: CameraDirection.Front,
         width: 300,
@@ -104,7 +148,7 @@ export default {
         quality: 90,
         resultType: CameraResultType.Uri,
         correctOrientation: false
-      }).then(() => {
+      }).then(image => {
         this.imageSrc = image.webPath;
         this.selfie = image.webPath;
       }).catch(e => {
