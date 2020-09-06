@@ -34,28 +34,28 @@
               </template>
 
               <q-item v-ripple class="bg-green-4" dark :disabled="!selfie">
-                <q-item-section avatar>
+                <q-item-section avatar class="animated slideOutRight infinite" style="animation-duration: 2s;">
                   <q-avatar color="positive" text-color="white" icon="double_arrow"/>
                 </q-item-section>
-                <q-item-section class="text-weight-bolder">
+                <q-item-section class="text-weight-bolder q-ml-xl">
                   CLOCK IN
                 </q-item-section>
               </q-item>
             </q-slide-item>
 
-            <q-slide-item @left="clockOut" left-color="negative" v-if="selectedEmployee.on_shift" :disabled="!selfie">
-              <template v-slot:left v-if="selfie">
+            <q-slide-item @left="clockOut" left-color="negative" v-if="selectedEmployee.on_shift">
+              <template v-slot:left>
                 <div class="row items-center">
                   <q-icon name="stop" class="q-mr-md"/>
                   Clock Out
                 </div>
               </template>
 
-              <q-item v-ripple class="bg-red-4" dark :disabled="!selfie">
-                <q-item-section avatar>
+              <q-item v-ripple class="bg-red-4" dark>
+                <q-item-section avatar class="animated slideOutRight infinite" style="animation-duration: 2s;">
                   <q-avatar color="negative" text-color="white" icon="double_arrow"/>
                 </q-item-section>
-                <q-item-section class="text-weight-bolder">
+                <q-item-section class="text-weight-bolder q-ml-xl">
                   CLOCK OUT
                 </q-item-section>
               </q-item>
@@ -130,11 +130,8 @@ export default {
 
   data() {
     return {
-      hasCameraSupport: true,
-      imageCaptured: false,
       selfie: null,
       imageSrc: null,
-      clockedIn: false,
       selectedEmployee: {
         name: null,
         on_shift: false
@@ -144,7 +141,7 @@ export default {
 
   methods: {
     async takeSelfie() {
-      await Camera.getPhoto({
+      const image = await Camera.getPhoto({
         allowEditing: false,
         direction: CameraDirection.Front,
         width: 300,
@@ -152,16 +149,18 @@ export default {
         source: CameraSource.Camera,
         quality: 90,
         resultType: CameraResultType.Uri
-      }).then(image => {
-        this.imageSrc = image.webPath;
-        this.selfie = image.webPath;
       }).catch(e => {
         console.log(e);
       });
+
+      if (image) {
+        this.imageSrc = image.webPath;
+        this.selfie = await fetch(image.webPath).then(r => r.blob());
+      }
     },
     clockIn() {
       this.$q.loading.show();
-      this.$store.dispatch('employee/clockIn').finally(() => {
+      this.$store.dispatch('employee/clockIn', {selfie: this.selfie}).finally(() => {
         this.$q.loading.hide();
       });
     },
@@ -170,6 +169,33 @@ export default {
       this.$store.dispatch('employee/clockOut').finally(() => {
         this.$q.loading.hide();
       });
+    },
+    requireSelfie() {
+      if (!this.$q.platform.is.capacitor) {
+        return false;
+      }
+
+      let latestAttendance = this.selectedEmployee.attendances[0];
+      return !latestAttendance || latestAttendance.end_at !== null;
+    },
+    b64toBlob(b64Data, contentType = '', sliceSize = 512) {
+      const byteCharacters = atob(b64Data);
+      const byteArrays = [];
+
+      for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+        const byteNumbers = new Array(slice.length);
+        for (let i = 0; i < slice.length; i++) {
+          byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        const byteArray = new Uint8Array(byteNumbers);
+        byteArrays.push(byteArray);
+      }
+
+      const blob = new Blob(byteArrays, {type: contentType});
+      return blob;
     }
   },
 
@@ -180,7 +206,11 @@ export default {
     if (!this.selectedEmployee) {
       return this.$router.back();
     }
-    this.takeSelfie();
+    let latestAttendance = this.selectedEmployee.attendances[0];
+    this.imageSrc = latestAttendance.selfie;
+    if (this.requireSelfie()) {
+      this.takeSelfie();
+    }
   },
 
   beforeDestroy() {
