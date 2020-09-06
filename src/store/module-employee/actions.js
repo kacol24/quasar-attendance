@@ -15,19 +15,17 @@ export async function loadEmployees(context) {
            .finally(() => context.commit('doneLoading'));
 }
 
-export async function clockIn(context) {
-  let employee = context.state.selectedEmployee;
-  await api.clockIn(employee.id)
-           .then(response => {
-             let employee = response.data;
-             Notify.create({
-               type: 'positive',
-               message: employee.name + ': berhasil clock-in!',
-               icon: 'play_circle_filled'
-             });
-             context.dispatch('loadEmployees');
-             this.$router.back();
-           });
+export async function clockIn(context, {selfie}) {
+  let selectedEmployee = context.state.selectedEmployee;
+  const response = await api.clockIn(selectedEmployee.id, selfie);
+  let employee = response.data;
+  Notify.create({
+    type: 'positive',
+    message: employee.name + ': berhasil clock-in!',
+    icon: 'play_circle_filled'
+  });
+  await context.dispatch('loadEmployees');
+  this.$router.back();
 }
 
 export async function clockOut(context) {
