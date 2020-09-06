@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "test": "echo \"No test specified\" && exit 0",
-    "deploy": "push-dir --dir=dist/spa --remote=gh-pages --branch=master --cleanup"
+    "deploy": "push-dir --dir=dist/spa --remote=gh-pages --branch=master --cleanup --verbose"
   },
   "dependencies": {
     "@capacitor/core": "^2.4.0",
