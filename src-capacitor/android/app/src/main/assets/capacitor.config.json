@@ -1,0 +1,7 @@
+{
+  "appId": "me.kevinchandra.attendance",
+  "appName": "Kamsia Attendance",
+  "bundledWebRuntime": false,
+  "npmClient": "yarn",
+  "webDir": "www"
+}
