@@ -11,12 +11,12 @@
               <q-card-section>
                 <div class="row">
                   <div class="col-6" v-for="employee in Array(2).keys()" v-if="employeeLoading">
-                    <div class="q-pa-sm">
+                    <div class="q-pa-md">
                       <q-skeleton type="QBtn" class="block q-py-md full-width" style="height: 68px;"/>
                     </div>
                   </div>
                   <div class="col-6" v-for="employee in offEmployees" :key="employee.id" v-if="!employeeLoading">
-                    <div class="q-pa-sm">
+                    <div class="q-pa-md">
                       <q-btn :to="{ name: 'camera.index', params: {employee_id: employee.id} }" :label="employee.name"
                              class="block q-py-md"/>
                     </div>
@@ -35,12 +35,12 @@
               <q-card-section>
                 <div class="row">
                   <div class="col-6" v-for="employee in Array(2).keys()" v-if="employeeLoading">
-                    <div class="q-pa-sm">
+                    <div class="q-pa-md">
                       <q-skeleton type="QBtn" class="block full-width" style="height: 68px;"/>
                     </div>
                   </div>
                   <div class="col-6" v-for="employee in onEmployees" v-if="!employeeLoading">
-                    <div class="q-pa-sm">
+                    <div class="q-pa-md">
                       <q-btn :to="{ name: 'camera.index', params: {employee_id: employee.id} }" :label="employee.name"
                              class="block q-py-md"/>
                     </div>

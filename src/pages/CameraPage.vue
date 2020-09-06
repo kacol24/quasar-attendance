@@ -38,32 +38,32 @@
                   <q-avatar color="positive" text-color="white" icon="double_arrow"/>
                 </q-item-section>
                 <q-item-section class="text-weight-bolder q-ml-xl">
-                  CLOCK IN
+                  MULAI SHIFT
                 </q-item-section>
               </q-item>
             </q-slide-item>
 
-            <q-slide-item @left="clockOut" left-color="negative" v-if="selectedEmployee.on_shift">
-              <template v-slot:left>
+            <q-slide-item @left="clockOut" left-color="negative" v-if="selectedEmployee.on_shift" :disabled="!selfie">
+              <template v-slot:left v-if="selfie">
                 <div class="row items-center">
                   <q-icon name="stop" class="q-mr-md"/>
                   Clock Out
                 </div>
               </template>
 
-              <q-item v-ripple class="bg-red-4" dark>
+              <q-item v-ripple class="bg-red-4" dark :disabled="!selfie">
                 <q-item-section avatar class="animated slideOutRight infinite" style="animation-duration: 2s;">
                   <q-avatar color="negative" text-color="white" icon="double_arrow"/>
                 </q-item-section>
                 <q-item-section class="text-weight-bolder q-ml-xl">
-                  CLOCK OUT
+                  AKHIRI SHIFT
                 </q-item-section>
               </q-item>
             </q-slide-item>
           </template>
           <div class="q-mt-md q-mb-md" v-if="selectedEmployee && selectedEmployee.attendances">
             <q-list bordered separator v-for="attendance in selectedEmployee.attendances" :key="attendance.id">
-              <q-item v-if="attendance.end_at">
+              <q-item v-if="attendance.end_at" class="bg-red-1">
                 <q-item-section>
                   <q-item-label>
                     Clock Out
@@ -74,7 +74,7 @@
                 </q-item-section>
               </q-item>
 
-              <q-item v-if="attendance.start_at">
+              <q-item v-if="attendance.start_at" class="bg-green-1">
                 <q-item-section>
                   <q-item-label>
                     Clock In
@@ -135,11 +135,13 @@ export default {
 
   methods: {
     async takeSelfie() {
+      if (!this.requireSelfie()) {
+        return false;
+      }
       try {
         const image = await Camera.getPhoto({
           allowEditing: false,
           direction: CameraDirection.Front,
-          width: 300,
           height: 400,
           source: CameraSource.Camera,
           quality: 90,
@@ -156,15 +158,17 @@ export default {
     },
     clockIn() {
       this.$q.loading.show();
-      this.$store.dispatch('employee/clockIn', {selfie: this.selfie}).finally(() => {
-        this.$q.loading.hide();
-      });
+      this.$store.dispatch('employee/clockIn', {selfie: this.selfie})
+          .finally(() => {
+            this.$q.loading.hide();
+          });
     },
     clockOut() {
       this.$q.loading.show();
-      this.$store.dispatch('employee/clockOut').finally(() => {
-        this.$q.loading.hide();
-      });
+      this.$store.dispatch('employee/clockOut')
+          .finally(() => {
+            this.$q.loading.hide();
+          });
     },
     requireSelfie() {
       if (!this.$q.platform.is.capacitor) {
@@ -184,12 +188,11 @@ export default {
       return this.$router.back();
     }
     let latestAttendance = this.selectedEmployee.attendances[0];
-    if (latestAttendance.selfie) {
+    this.imageSrc = null;
+    if (latestAttendance && latestAttendance.selfie) {
       this.imageSrc = latestAttendance.selfie_url;
     }
-    if (this.requireSelfie()) {
-      this.takeSelfie();
-    }
+    this.takeSelfie();
   },
 
   beforeDestroy() {
