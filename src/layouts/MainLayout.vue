@@ -5,6 +5,9 @@
         <q-btn flat round dense icon="arrow_back" v-show="this.$route.name !== 'home'" v-go-back.single/>
         <q-toolbar-title>
           Absensi Karyawan
+          <small style="font-size: 50%">
+            v1.0.1
+          </small>
         </q-toolbar-title>
 
         <div class="gt-xs">
