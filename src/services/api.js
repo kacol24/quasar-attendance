@@ -12,7 +12,8 @@ export default {
     formData.append('selfie', selfie);
     return axios.post(
       BASE_URL + '/employee/' + employeeId + '/clock-in',
-      formData);
+      formData
+    );
   },
   clockOut(employeeId) {
     return axios.put(BASE_URL + '/employee/' + employeeId + '/clock-out');

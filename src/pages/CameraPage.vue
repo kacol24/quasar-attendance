@@ -60,12 +60,6 @@
                 </q-item-section>
               </q-item>
             </q-slide-item>
-
-
-            <!--            <q-btn label="Clock In" color="positive" size="lg" class="block full-width"-->
-            <!--                   @click="clockIn"/>-->
-            <!--            <q-btn label="Clock Out" color="negative" size="lg" class="block full-width"-->
-            <!--                   @click="clockOut"/>-->
           </template>
           <div class="q-mt-md q-mb-md" v-if="selectedEmployee && selectedEmployee.attendances">
             <q-list bordered separator v-for="attendance in selectedEmployee.attendances" :key="attendance.id">
@@ -141,21 +135,23 @@ export default {
 
   methods: {
     async takeSelfie() {
-      const image = await Camera.getPhoto({
-        allowEditing: false,
-        direction: CameraDirection.Front,
-        width: 300,
-        height: 400,
-        source: CameraSource.Camera,
-        quality: 90,
-        resultType: CameraResultType.Uri
-      }).catch(e => {
-        console.log(e);
-      });
+      try {
+        const image = await Camera.getPhoto({
+          allowEditing: false,
+          direction: CameraDirection.Front,
+          width: 300,
+          height: 400,
+          source: CameraSource.Camera,
+          quality: 90,
+          resultType: CameraResultType.Uri
+        });
 
-      if (image) {
-        this.imageSrc = image.webPath;
-        this.selfie = await fetch(image.webPath).then(r => r.blob());
+        if (image) {
+          this.imageSrc = image.webPath;
+          this.selfie = await fetch(image.webPath).then(r => r.blob());
+        }
+      } catch (e) {
+        console.log(e);
       }
     },
     clockIn() {
@@ -188,7 +184,9 @@ export default {
       return this.$router.back();
     }
     let latestAttendance = this.selectedEmployee.attendances[0];
-    this.imageSrc = latestAttendance.selfie;
+    if (latestAttendance.selfie) {
+      this.imageSrc = latestAttendance.selfie_url;
+    }
     if (this.requireSelfie()) {
       this.takeSelfie();
     }
