@@ -18,7 +18,7 @@ export default {
   clockOut(employeeId, selfie) {
     let formData = new FormData();
     formData.append('selfie_out', selfie);
-    return axios.put(
+    return axios.post(
       BASE_URL + '/employee/' + employeeId + '/clock-out',
       formData
     );
