@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://attendance.kamsia.kevinchandra.me/api';
-// const BASE_URL = 'http://backpack-payroll.docker/api';
+// const BASE_URL = 'https://attendance.kamsia.kevinchandra.me/api';
+const BASE_URL = 'http://backpack-payroll.docker/api';
 
 export default {
   employeesIndex() {
@@ -9,13 +9,18 @@ export default {
   },
   clockIn(employeeId, selfie) {
     let formData = new FormData();
-    formData.append('selfie', selfie);
+    formData.append('selfie_in', selfie);
     return axios.post(
       BASE_URL + '/employee/' + employeeId + '/clock-in',
       formData
     );
   },
-  clockOut(employeeId) {
-    return axios.put(BASE_URL + '/employee/' + employeeId + '/clock-out');
+  clockOut(employeeId, selfie) {
+    let formData = new FormData();
+    formData.append('selfie_out', selfie);
+    return axios.put(
+      BASE_URL + '/employee/' + employeeId + '/clock-out',
+      formData
+    );
   }
 };

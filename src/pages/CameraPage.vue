@@ -6,11 +6,13 @@
           <div class="row full-width">
             <div class="col-12">
               <div class="q-mx-auto" style="max-width: 300px">
-                <q-responsive :ratio="3/4" :style="[imageSrc ? {'background-image': 'url('+ imageSrc +')'} : '']"
-                              style="background-size: cover; background-position: center" @click="takeSelfie">
-                  <img src="images/blank_portrait_pointer.png" alt="blank image" class="q-mx-auto block"
-                       style="max-width: 100%; height: auto;" v-if="!imageSrc">
-                </q-responsive>
+                <q-img :src="imageSrc" :ratio="3/4" @click="takeSelfie" v-if="imageSrc">
+                  <template v-slot:loading>
+                    <q-skeleton height="400px" square/>
+                  </template>
+                </q-img>
+                <img src="images/blank_portrait_pointer.png" alt="blank image" class="q-mx-auto block"
+                     style="max-width: 100%; height: auto;" v-if="!imageSrc" @click="takeSelfie">
               </div>
             </div>
           </div>
@@ -135,14 +137,16 @@ export default {
 
   methods: {
     async takeSelfie() {
-      if (!this.requireSelfie()) {
+      if (!this.requireSelfie() && !process.env.DEV) {
         return false;
       }
       try {
         const image = await Camera.getPhoto({
           allowEditing: false,
           direction: CameraDirection.Front,
+          width: 400,
           height: 400,
+          preserveAspectRatio: true,
           source: CameraSource.Camera,
           quality: 90,
           resultType: CameraResultType.Uri
@@ -165,7 +169,7 @@ export default {
     },
     clockOut() {
       this.$q.loading.show();
-      this.$store.dispatch('employee/clockOut')
+      this.$store.dispatch('employee/clockOut', {selfie: this.selfie})
           .finally(() => {
             this.$q.loading.hide();
           });
