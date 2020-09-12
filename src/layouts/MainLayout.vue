@@ -6,7 +6,7 @@
         <q-toolbar-title>
           Absensi Karyawan
           <small style="font-size: 50%">
-            v1.0.2
+            v1.0.3
           </small>
         </q-toolbar-title>
 
