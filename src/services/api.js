@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// const BASE_URL = 'https://attendance.kamsia.kevinchandra.me/api';
-const BASE_URL = 'http://backpack-payroll.docker/api';
+const BASE_URL = 'https://attendance.kamsia.kevinchandra.me/api';
+// const BASE_URL = 'http://backpack-payroll.docker/api';
 
 export default {
   employeesIndex() {
