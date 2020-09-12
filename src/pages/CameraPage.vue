@@ -137,7 +137,7 @@ export default {
 
   methods: {
     async takeSelfie() {
-      if (!this.requireSelfie() && !process.env.DEV) {
+      if (!this.requireSelfie()) {
         return false;
       }
       try {
