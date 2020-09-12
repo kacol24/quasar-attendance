@@ -179,8 +179,7 @@ export default {
         return false;
       }
 
-      let latestAttendance = this.selectedEmployee.attendances[0];
-      return !latestAttendance || latestAttendance.end_at !== null;
+      return true;
     }
   },
 
