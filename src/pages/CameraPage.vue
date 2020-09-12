@@ -191,11 +191,11 @@ export default {
     if (!this.selectedEmployee) {
       return this.$router.back();
     }
-    let latestAttendance = this.selectedEmployee.attendances[0];
+    // let latestAttendance = this.selectedEmployee.attendances[0];
     this.imageSrc = null;
-    if (latestAttendance && latestAttendance.selfie) {
-      this.imageSrc = latestAttendance.selfie_url;
-    }
+    // if (latestAttendance && latestAttendance.selfie) {
+    //   this.imageSrc = latestAttendance.selfie_url;
+    // }
     this.takeSelfie();
   },
 
